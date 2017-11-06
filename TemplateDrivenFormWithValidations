@@ -1,0 +1,147 @@
+
+
+<div class="el">
+        <div class="row">
+           
+            <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+                <div class="panel panel-primary panel-transparent">
+                    <div class="panel-heading">Enter Your Details
+                    </div>
+                    <div class="panel-body">
+                        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)" *ngIf="!submitted" novalidate name="myform" autocomplete="on">
+              <h2>Registration Form</h2>
+                            <div class="form-group">
+                                <label for="myName">First Name *</label>
+                                <input id="myName" name="myName" class="form-control" type="text" data-validation="required" #nameRef="ngModel" maxlength="15" minlength="4" pattern="[a-z]+" required ngModel>
+                                
+                                <span id="error_name" class="text-danger"></span>
+                            </div>
+                            <div *ngIf="nameRef.errors && (nameRef.dirty|| nameRef.touched)" class=" alert alert-danger">
+                  <div [hidden]="!nameRef.errors.required" >
+                      Please enter a name
+                  </div>
+                  <div [hidden]="!nameRef.errors.minlength">
+                      Please enter atleast four characters
+                  </div>
+                     <div [hidden]="!nameRef.errors.pattern">
+                      Please enter valid name
+                  </div>
+              </div>
+                
+                            <div class="form-group">
+                                <label for="lastname">Email *</label>
+                                 <input id="email" name="email" class="form-control" type="text" data-validation="email"  #refEmail="ngModel" required pattern="[a-z]+@[a-z]+\.(com|co.in)" ngModel>
+                                 <div *ngIf="refEmail.errors && (refEmail.dirty||refEmail.touched)" class="alert alert-danger">
+                  <div [hidden]="!refEmail.errors.required" class="hide">
+                      Please enter an email
+                  </div>
+                  <div [hidden]="!refEmail.errors.pattern">
+                      Please enter valid email
+                  </div>
+                    </div>
+                                <span id="error_lastname" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                    <label>Date Of Birth</label>
+                                    <input type="date" #refDate="ngModel" required class="form-control" name="date" ngModel>
+                                    <div *ngIf="refDate.errors && (refDate.dirty||refDate.touched)" class="alert alert-danger">
+                                  <div [hidden]="!refDate.errors.required">
+                                      Please enter a Date Of Birth
+                                  </div>
+                                  <div [hidden]="!refDate.errors.pattern">
+                                      Please enter a Date Of Birth
+                                  </div>
+                                 </div>
+                                    
+                                  </div>
+                                 <div ngModelGroup="address">
+                            <div class="form-group">
+                                <label for="address">Address *</label>
+                                <input id="address" name="address"  class="form-control" type="text" min="1" #refStreet="ngModel" required ngModel >
+                                <span id="error_age" class="text-danger"></span>
+                                <div *ngIf="refStreet.errors && (refStreet.dirty|| refStreet.touched)" class="alert alert-danger">
+                  <div [hidden]="!refStreet.errors.required">
+                      Please enter street
+                  </div>
+                 
+                  
+              </div>
+                            </div>
+                             <div class="form-group">
+                                <label for="city">City *</label>
+                                <input id="city" name="city"  class="form-control" type="text" min="1" #refCity="ngModel" required ngModel>
+                                <span id="error_age" class="text-danger"></span>
+                                <div *ngIf="refCity.errors && (refCity.dirty|| refCity.touched)" class="alert alert-danger">
+                  <div [hidden]="!refCity.errors.required">
+                      Please enter City
+                  </div>
+                 
+              </div>
+                            </div>
+                             <div class="form-group">
+                                <label for="pin">Postal Code *</label>
+                                <input id="pin" name="postalcode"  class="form-control" type="number" min="1" #refPin="ngModel" required pattern="^[1-9][0-9]{4}$" ngModel >
+                                <span id="error_age" class="text-danger"></span>
+                                 <div *ngIf="refPin.errors && (refPin.dirty|| refPin.touched)" class="alert alert-danger">
+                        <div [hidden]="!refPin.errors.required">
+                      Please enter a pin
+                  </div>
+                  <div [hidden]="!refPin.errors.pattern">
+                      Please enter five digit number
+                  </div>
+                 
+                    </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender *: </label>
+                                <label class="radio-inline" for="gender-0">
+                                        <input type="radio" value="male" name="gender" required #gender="ngModel" ngModel> 
+                             Male </label> 
+                             <label class="radio-inline" for="gender-1">
+                                    <input type="radio" value="female" name="gender"required #gender="ngModel" ngModel>
+                             Female </label>
+                             
+                             <div *ngIf="gender.invalid && (gender.dirty||gender.touched)" class="alert alert-danger"> 
+                                    Gender required. 
+                                </div> 
+
+                            </div>
+                              
+                            <label> Country *:
+                                    <input type="text" list="dataList" name="country" class="form-control" type="text" data-validation="required" #countryRef="ngModel" required ngModel>
+                                       </label>
+                                       <datalist id="dataList">
+                                        
+                                         <option *ngFor="let country of countries" [value]="country.name">
+                                            </option>
+                                       </datalist>
+                            
+                            <div class="form-group">
+                                <label for="disc">Description</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                             <div class="form-group">
+                               
+                                    <div class="checkbox">
+                                        <label>
+                                                <input type="checkbox" name="tc" required #tc="ngModel" ngModel>
+                                            I accept the <a href="#">terms and conditions.</a>
+                                        </label>
+                                    </div>
+                             
+                            </div>
+                            
+                            <button [disabled]="!userForm.valid" type="submit" class="btn btn-primary">Submit</button>
+                    
+                        </form>
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
