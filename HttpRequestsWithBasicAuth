@@ -1,0 +1,26 @@
+// Angular 2
+import {Injectable} from '@angular/core';
+import {Http, Headers} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+@Injectable()
+export class ApiService {
+url:string = "http://SomeUrl";
+   constructor(private _http: Http) {}
+
+   call(): Observable<any> {
+      let username: string = 'raja';
+      let password: string = 'rajarshi';
+      let headers: Headers = new Headers();
+      headers.append("Authorization", "Basic " + btoa(username + ":" + password)); 
+      headers.append("Content-Type", "application/json");
+      return this._http.get(this.url,{headers: headers}).map(res =>
+        {
+            console.log(res);
+           return res.json().value;
+        }
+    );
+    }
+}
+
