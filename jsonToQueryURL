@@ -1,0 +1,188 @@
+//simple method 
+import {URLSearchParams} from '@angular/http'
+let options = {
+  param1: "param1",
+  param2: "param2",
+  param3: "param3"
+};
+
+let params = new URLSearchParams();
+for(let key in options){
+    params.set(key, options[key]) 
+}
+
+console.log("http://someUrl?" + params.toString());
+This does automatic encoding by the way.
+
+
+// for complicated 
+
+
+Questions
+Developer Jobs
+Tags
+Users
+
+Search…
+ 
+Log In Sign Up
+Learn, Share, Build
+Each month, over 50 million developers come to Stack Overflow to learn, share their knowledge, and build their careers.
+
+Join the world’s largest developer community.
+Google
+Facebook
+OR
+Display name
+
+J. Doe
+Email address
+
+you@example.com
+Password
+
+********
+ Sign Up
+By registering, you agree to the privacy policy and terms of service.
+How to convert JSON to query string in angular2?
+
+Ask Question
+up vote
+4
+down vote
+favorite
+I'm new to Angular2. I have a JSON object, as below:
+
+var options = {
+  param1: "parama1",
+  param2: "parama2",
+  param3: "parama3"
+};
+which should convert to query string and append to an external URL to redirect the page like below:
+
+ngOnInit(){
+     window.location.href = someurl?param1=param1&param2=param2&param3=param3;
+}
+I'm looking for a way to convert it to query string. In JQuery, $.param() and in AngularJS $httpParamSerializerJQLike() are there for this. I'd searched, but I got nothing. I want to know is there any way to do it in angular2.
+
+json angular typescript query-string
+shareimprove this question
+edited Jan 20 at 10:49
+asked Jan 20 at 10:34
+
+sitchie
+361621
+  	 	
+Possible duplicate of How to pass url arguments (query string) to a HTTP request on Angular 2 – AArias Jan 20 at 10:37
+  	 	
+I don't want to call any HTTP get or post. I will change the window.location.href. – sitchie Jan 20 at 10:40 
+  	 	
+You have to look at this answer – Alexander Antyneskul Jan 20 at 10:41
+  	 	
+I don't want to call any HTTP get or post. I will change the window.location.href. – sitchie Jan 20 at 10:46
+add a comment
+3 Answers
+active oldest votes
+up vote
+22
+down vote
+accepted
+A more 'official' method without the string concats:
+
+import {URLSearchParams} from '@angular/http'
+let options = {
+  param1: "param1",
+  param2: "param2",
+  param3: "param3"
+};
+
+let params = new URLSearchParams();
+for(let key in options){
+    params.set(key, options[key]) 
+}
+
+console.log("http://someUrl?" + params.toString());
+This does automatic encoding by the way.
+
+shareimprove this answer
+answered Jan 20 at 11:33
+
+MikeOne
+1,071712
+  	 	
+I like this answer better than mine, good one. – AArias Jan 20 at 11:36
+  	 	
+@sitchie - I rejected your proposed edit. The params are already URLEncoded if you use this method. – MikeOne Jan 20 at 12:29
+  	 	
+I got it, but there is no way to revert. – sitchie Jan 20 at 12:34 
+  	 	
+FYI: Until recently, URLSearchParams needs a polyfill to be used correctly in some browsers (IE and Safari), does anyone know if that changed? – Ayyash Jul 11 at 5:47
+  	 	
+This will not work with complex types – johnny 5 Sep 6 at 14:02
+add a comment
+up vote
+2
+down vote
+This solution will work with most complex types
+
+Incase anyone was wondering how to do this, I've written an extension that should work with c# .Net Core 1.1 and Typescript 2.2.2 WebApi which looks like so.
+
+Remember to include these two imports where you are using it as well
+
+import { URLSearchParams } from '@angular/http';
+import 'rxjs/add/operator/map'
+
+export class QueryStringBuilder {
+    static BuildParametersFromSearch<T>(obj: T): URLSearchParams {
+        let params: URLSearchParams = new URLSearchParams();
+
+        if (obj == null)
+        {
+            return params;
+        }
+
+        QueryStringBuilder.PopulateSearchParams(params, '', obj);
+
+        return params;
+    }
+
+    private static PopulateArray<T>(params: URLSearchParams, prefix: string, val: Array<T>) {
+        for (let index in val) {
+            let key = prefix + '[' + index + ']';
+            let value: any = val[index];
+            QueryStringBuilder.PopulateSearchParams(params, key, value);
+        }
+    }
+
+    private static PopulateObject<T>(params: URLSearchParams, prefix: string, val: T) {
+        const objectKeys = Object.keys(val) as Array<keyof T>;
+
+        if (prefix) {
+            prefix = prefix + '.';
+        }
+
+        for (let objKey of objectKeys) {
+
+            let value = val[objKey];
+            let key = prefix + objKey;
+
+            QueryStringBuilder.PopulateSearchParams(params, key, value);
+        }
+    }
+
+    private static PopulateSearchParams<T>(params: URLSearchParams, key: string, value: any) {
+        if (value instanceof Array) {
+            QueryStringBuilder.PopulateArray(params, key, value);
+        }
+        else if (value instanceof Date) {
+            params.set(key, value.toISOString());
+        }
+        else if (value instanceof Object) {
+            QueryStringBuilder.PopulateObject(params, key, value);
+        }
+        else {
+            params.set(key, value.toString());
+        }
+    }
+
+}
