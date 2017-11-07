@@ -1,0 +1,47 @@
+
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+
+const routes: Routes = [
+  {
+    path: '',
+    component: someComponent
+  },
+  
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  providers: []
+})
+export class AppRoutingModule { }
+
+and import it inside the appModule
+
+
+Another way 
+import{Route,Routes,RouterModule} from '@angular/router';
+import{ModuleWithProviders} from '@angular/core';
+
+//components 
+import { ModelComponent } from './some.component';
+
+
+export const routes:Routes = [
+     {
+        path:'',
+        redirectTo:'/model',
+        pathMatch:'full'
+    },
+    {
+        path:'model',
+        component:someComponent
+    }, 
+
+]
+
+export const routing:ModuleWithProviders = RouterModule.forRoot(routes); 
+and import it inside the appModule
