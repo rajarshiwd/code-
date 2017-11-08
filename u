@@ -1,0 +1,12 @@
+1:
+http://localhost:9090/server/eds/LoadLogDetail/views/LoadLogDetail 
+2:
+http://houtibd01:9090/denodo-odata4-service-6.0/denodo-odata.svc/eds/LoadLogDetail?$format=json 
+3:
+http://houtibd01:9090/denodo-odata4-service-6.0/denodo-odata.svc/eds/LoadLogDetail?$filter=(ProcessCode%20eq%20%27WvJobAfe%27)&$format=json 
+4:
+http://houtibd01:9090/denodo-odata4-service-6.0/denodo-odata.svc/eds/LoadLogDetail?$filter=(ProcessCode%20eq%20%27WvJobAfe%27)&$filter=(InsertCount%20eq%20%2733213%27)&$format=json 
+5: 
+http://houtibd01:9090/denodo-odata4-service-6.0/denodo-odata.svc/eds/LoadLogDetail?$filter=(ProcessCode eq 'WvJobAfe')& (InsertCount eq '33213')&$format=json 
+6:
+http://houtibd01:9090/denodo-odata4-service-6.0/denodo-odata.svc/eds/LoadLogDetail?$filter=(LoadId%20eq%20663095)&$format=json
