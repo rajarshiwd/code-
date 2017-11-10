@@ -1,0 +1,23 @@
+function findProp(obj, prop, defval){
+          if (defval == '') defval = null;
+
+          prop = prop.split('.');
+          console.log(prop);
+          
+          for (var i = 0; i < prop.length; i++) {
+              if(typeof obj[prop[i]] == 'undefined')
+                  return defval;
+              obj = obj[prop[i]];
+          }
+          return obj;
+      }
+
+      
+      if(this.path==" "){
+        
+        var some = data;
+      }else{
+        
+        some = findProp(data,this.path,'');
+        console.log(some);
+      }
