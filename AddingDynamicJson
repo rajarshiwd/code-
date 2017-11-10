@@ -1,0 +1,28 @@
+var object = {
+  "nodes": [{
+    "nd": "nd1",
+    "cat": "cat1"
+  }],
+  "links": [{
+    "id": 100
+  }],
+  "types": [{
+    "type": "one",
+    "image": "image001"
+  }, {
+    "type": "two",
+    "image": "image002"
+  }, {
+    "type": "three",
+    "image": "image003"
+  }]
+};
+
+
+function parseJson(object){
+    object.types.forEach(function(key) {
+      console.log(key.type);
+    });
+}
+
+parseJson(object);
