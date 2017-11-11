@@ -1,0 +1,4 @@
+Creates a new Object with prototype sets to a certain Object.
+
+---> Though the new object doesn't have a properties but it will have a reference to prototype of the object which it was created from.
+
