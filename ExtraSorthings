@@ -1,0 +1,81 @@
+private data:Array<any> = [];
+    private advancedSearch:boolean = false ;
+  
+    constructor(private service:LoadService){
+  
+  
+    }
+    ngOnInit(){
+  
+   this.LaodServiceCall();
+  
+    }
+
+    // Initial call to data service with StartTime Sorting 
+    private LaodServiceCall(){
+      this.service.LoadApiCall().subscribe(res=>{
+
+        let filtered = res.sort(function(a,b) { 
+          return new Date(b.StartTime).getTime() - new Date(a.StartTime).getTime() ;
+      });
+      
+        
+       return  this.data = res});
+      
+    }
+
+    // Sorting function for sorting the table depends upon the table heading clicks 
+    private sortingTableData(sortingValue : string ){
+
+      // checks If user clicks sorting function depends on time 
+      if(sortingValue == "EndTime" || sortingValue == "LoadTime" || sortingValue == "StartTime"  ){
+
+        this.service.LoadApiCall().subscribe(res=>{
+          
+                  let filtered = res.sort(function(a,b) { 
+                    return new Date(b[sortingValue]).getTime() - new Date(a[sortingValue]).getTime() ;
+                });
+                
+                  
+                 return  this.data = filtered});
+      
+              }
+              // sort the rest 
+              else{
+                
+                         this.service.LoadApiCall().subscribe(res=>{
+                           
+                                   let filtered = res.sort(function(a,b) { 
+                         
+                                     return b[sortingValue]- a[sortingValue] ;
+                                 });
+                                 
+                                   
+                                  return  this.data = filtered});
+                       }
+        
+
+
+    }
+    // toggle advanced search 
+    private showAdvancedSearch(){
+      this.advancedSearch = !this.advancedSearch;
+    }
+
+    //removes advanced search 
+    private closeAdvancedSearch(){
+
+      this.advancedSearch = false;
+      
+    }
+   
+    // Advanced search function  
+    private onSearch(value){
+
+      // deletes the empty element in the array 
+      Object.keys(value).forEach((key) => (value[key] == "") && delete value[key]);
+      
+      this.service.toUrl(value);
+      this.LaodServiceCall();
+
+    }
