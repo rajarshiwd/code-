@@ -1,6 +1,14 @@
-@HostListener('window:scroll', ['$event']) 
-  doSomething(event) {
-    // console.debug("Scroll Event", document.body.scrollTop);
-    // see András Szepesházi's comment below
-    console.log("Scroll Event", window.pageYOffset );
+ @HostListener('window:scroll', ['$event'])
+  onScroll(e) {
+      console.log(window.pageYOffset);
+
+     // if(window.pageYOffset > 100){
+
+        //alert('>100')
+      //  window.scrollTo(0, 0);
+     // }
+  }
+
+  topScroll(){
+    window.scrollTo(0, 0);
   }
